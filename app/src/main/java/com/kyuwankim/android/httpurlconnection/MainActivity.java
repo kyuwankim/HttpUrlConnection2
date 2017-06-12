@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,10 +12,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textView = (TextView) findViewById(R.id.textview);
 
         String url = "http://google.com";
         newTask(url);
@@ -22,20 +27,30 @@ public class MainActivity extends AppCompatActivity {
 
     // thread 를 생성
     public void newTask(String url){
-        new AsyncTask<String, Void, Void>(){
+        new AsyncTask<String, Void, String>(){
             // 백그라운드 처리 함수
             @Override
-            protected Void doInBackground(String... params) {
+            protected String doInBackground(String... params) {
+                String result = "";
                 try {
                     // getData 함수로 데이터를 가져온다.
-                    String result = getData(params[0]);
+                    result = getData(params[0]);
                     Log.i("Network", result);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return null;
+                return result;
+            }
+
+
+            @Override
+            protected void onPostExecute(String result) {
+
+                textView.setText(result);
             }
         }.execute(url);
+
+
     }
 
     // 인자로 받은 url 로 네트웍을 통해 데이터를 가져오는 함수
@@ -59,12 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
             BufferedReader br = new BufferedReader( new InputStreamReader( con.getInputStream() ) );
             String temp = null;
+
             while( (temp = br.readLine()) != null){
                 result += temp;
             }
             // 2.3 오류에 대한 응답처리
         } else {
-            // 각자 호출측으로 Exception 을 만들어서 넘겨줄것~~~
             Log.e("Network","error_code="+responseCode);
         }
 
