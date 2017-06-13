@@ -5,9 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements TaskInterface{
+    static final String URL_PREFIX = "http://openAPI.seoul.go.kr:8088/";
+    static final String URL_CERT   = "4c425976676b6f643437665377554c";
+    static final String URL_MID    = "/json/SearchPublicToiletPOIService/";
+    // 한 페이지에 불러오는 데이터 수
+    static final int PAGE_OFFSET = 10;
+
+    int pageBegin = 1;
+    int pageEnd = 10;
+
+
 
     TextView textView;
-    String url = "http://google.com";
+    String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +25,31 @@ public class MainActivity extends AppCompatActivity implements TaskInterface{
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.textview);
 
-        Task.newTask(this);
+        // 최초 호출시 첫번째 집합을 불러온다.
+        setPage(1);
+
+        setUrl(pageBegin, pageEnd);
+
+        Remote.newTask(this);
+    }
+
+    private void setPage(int page){
+        pageEnd = page * PAGE_OFFSET;
+        pageBegin = pageEnd - PAGE_OFFSET + 1;
+    }
+
+    private void setUrl(int begin, int end){
+        // String
+        // StringBuffer
+        // StringBuilder
+
+        // String 연산.........
+        // String result = "문자열" + "문자열" + "문자열";
+        //                  ----------------
+        //                    메모리공간 할당
+        //                   ---------------------------
+        //                         메모리공간 할당
+        url = URL_PREFIX + URL_CERT + URL_MID +begin+"/"+end;
     }
 
     @Override
