@@ -11,7 +11,6 @@ import java.net.URL;
 /**
  * Created by kimkyuwan on 2017. 6. 12..
  */
-
 public class Remote {
 
     // thread 를 생성
