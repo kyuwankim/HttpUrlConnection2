@@ -3,6 +3,7 @@ package com.kyuwankim.android.httpurlconnection;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,7 +59,19 @@ public class MainActivity extends AppCompatActivity
         // 아답터
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,datas);
         listView.setAdapter(adapter);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
 
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
 
         // 맵을 세팅
         FragmentManager manager = getSupportFragmentManager();
